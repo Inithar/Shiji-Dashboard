@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 
-import Header from "../../components/Header/Header.tsx";
 import ReservationBoard from "../../components/ReservationsDashboard/ReservationBoard.tsx";
 
 import useQuery from "../../hooks/useQuery.ts";
@@ -20,7 +19,7 @@ const Dashboard = () => {
     try {
       return reservations.map(mapResponseObjectToReservation);
     } catch (error) {
-      console.log(`Błąd podczas przetwarzania danych rezerwacji: ${error}`);
+      console.error(`Błąd podczas przetwarzania danych rezerwacji: ${error}`);
       return null;
     }
   }, [reservations]);
@@ -34,12 +33,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <Header />
-      <main className={styles.mainContent}>
-        <ReservationBoard reservations={mappedReservations} />
-      </main>
-    </div>
+    <main className={styles.mainContent}>
+      <ReservationBoard reservations={mappedReservations} />
+    </main>
   );
 };
 
