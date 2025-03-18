@@ -1,20 +1,21 @@
-import React from 'react';
-import './Header.css';
+import React from "react";
+
+import styles from "./Header.module.css";
 
 const Header: React.FC = () => {
   return (
-    <header className="header">
-      <div className="header-content">
-        <div className="logo">
+    <header className={styles.header}>
+      <div className={styles.headerContent}>
+        <div className={styles.logo}>
           <h1>Dashboard Rezerwacji Hotelowych</h1>
         </div>
-        <div className="header-actions">
-          <div className="date-display">
-            {new Date().toLocaleDateString('pl-PL', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
+        <div className={styles.headerActions}>
+          <div className={styles.dateDisplay}>
+            {new Date().toLocaleDateString("pl-PL", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric"
             })}
           </div>
         </div>
@@ -23,4 +24,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header; 
+export default Header;

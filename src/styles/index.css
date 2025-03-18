@@ -18,6 +18,12 @@ body {
   min-height: 100vh;
 }
 
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
 a {
   color: #3498db;
   text-decoration: none;

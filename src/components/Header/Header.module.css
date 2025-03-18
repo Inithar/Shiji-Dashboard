@@ -5,7 +5,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.header-content {
+.headerContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,12 +20,12 @@
   font-weight: 600;
 }
 
-.header-actions {
+.headerActions {
   display: flex;
   align-items: center;
 }
 
-.date-display {
+.dateDisplay {
   font-size: 0.9rem;
   color: #ecf0f1;
   text-align: right;

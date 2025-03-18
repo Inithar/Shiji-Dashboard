@@ -1,4 +1,4 @@
-.reservation-board {
+.reservationBoard {
   display: flex;
   gap: 1rem;
   padding: 1rem;
@@ -6,7 +6,7 @@
   overflow: auto;
 }
 
-.status-column {
+.statusColumn {
   flex: 1 0 250px;
   width: 250px;
   display: flex;
@@ -17,7 +17,7 @@
   overflow: hidden;
 }
 
-.status-header {
+.statusHeader {
   padding: 1rem;
   color: white;
   display: flex;
@@ -28,13 +28,13 @@
   z-index: 1;
 }
 
-.status-header h2 {
+.statusHeader h2 {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.reservation-count {
+.reservationCount {
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 28px;
@@ -45,7 +45,7 @@
   font-weight: bold;
 }
 
-.reservation-list {
+.reservationList {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
@@ -54,7 +54,7 @@
   gap: 1rem;
 }
 
-.empty-status {
+.emptyStatus {
   padding: 1rem;
   text-align: center;
   color: #95a5a6;

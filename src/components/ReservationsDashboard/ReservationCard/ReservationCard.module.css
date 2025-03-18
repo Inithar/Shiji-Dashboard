@@ -1,4 +1,4 @@
-.reservation-card {
+.reservationCard {
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -7,12 +7,12 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.reservation-card:hover {
+.reservationCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.card-status-indicator {
+.cardStatusIndicator {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,29 +20,29 @@
   height: 100%;
 }
 
-.card-content {
+.cardContent {
   padding: 0.7rem;
 }
 
-.card-header {
+.cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
 }
 
-.guest-name {
+.guestName {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: #2c3e50;
 }
 
-.action-button {
+.actionButton {
   margin-left: 0.3rem;
 }
 
-.btn-action {
+.btnAction {
   background: none;
   border: none;
   cursor: pointer;
@@ -53,43 +53,43 @@
   transition: background-color 0.2s;
 }
 
-.btn-action:hover {
+.btnAction:hover {
   background-color: #f5f5f5;
   color: #2c3e50;
 }
 
-.stay-dates {
+.stayDates {
   margin-bottom: 0.5rem;
 }
 
-.date-range {
+.dateRange {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.2rem;
   font-size: 0.8rem;
 }
 
-.date-label {
+.dateLabel {
   color: #7f8c8d;
 }
 
-.date-value {
+.dateValue {
   font-weight: 500;
   color: #34495e;
 }
 
-.room-number {
+.roomNumber {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.8rem;
 }
 
-.room-label {
+.roomLabel {
   color: #7f8c8d;
 }
 
-.room-value {
+.roomValue {
   font-weight: 500;
   color: #34495e;
   background-color: #ecf0f1;

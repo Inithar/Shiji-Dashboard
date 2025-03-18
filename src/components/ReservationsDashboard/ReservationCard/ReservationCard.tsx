@@ -1,7 +1,9 @@
-import React from 'react';
-import { Reservation } from '../../../types/reservation';
-import { formatDate } from '../../../utils/dateFormatters';
-import './ReservationCard.css';
+import React from "react";
+
+import { formatDate } from "../../../utils/dateFormatters";
+import { Reservation } from "../../../types/reservation";
+
+import styles from "./ReservationCard.module.css";
 
 interface ReservationCardProps {
   reservation: Reservation;
@@ -10,38 +12,37 @@ interface ReservationCardProps {
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusColor }) => {
   return (
-    <div className="reservation-card">
-      <div className="card-status-indicator" style={{ backgroundColor: statusColor }}></div>
-      <div className="card-content">
-        <div className="card-header">
-          <h3 className="guest-name">{reservation.guestName}</h3>
-          <div className="action-button">
-            <button className="btn-action">
-              ⋮
-            </button>
+    <div className={styles.reservationCard}>
+      <div className={styles.cardStatusIndicator} style={{ backgroundColor: statusColor }}></div>
+      <div className={styles.cardContent}>
+        <div className={styles.cardHeader}>
+          <h3 className={styles.guestName}>{reservation.guestName}</h3>
+          <div className={styles.actionButton}>
+            <button className={styles.btnAction}>⋮</button>
           </div>
         </div>
-        
-        <div className="stay-dates">
-          <div className="date-range">
-            <span className="date-label">Przyjazd:</span>
-            <span className="date-value">{formatDate(reservation.checkInDate)}</span>
+
+        <div className={styles.stayDates}>
+          <div className={styles.dateRange}>
+            <span className={styles.dateLabel}>Przyjazd:</span>
+            <span className={styles.dateValue}>{formatDate(reservation.checkInDate)}</span>
           </div>
-          <div className="date-range">
-            <span className="date-label">Wyjazd:</span>
-            <span className="date-value">{formatDate(reservation.checkOutDate)}</span>
+
+          <div className={styles.dateRange}>
+            <span className={styles.dateLabel}>Wyjazd:</span>
+            <span className={styles.dateValue}>{formatDate(reservation.checkOutDate)}</span>
           </div>
         </div>
-        
+
         {reservation.roomNumber && (
-          <div className="room-number">
-            <span className="room-label">Pokój:</span>
-            <span className="room-value">{reservation.roomNumber}</span>
+          <div className={styles.roomNumber}>
+            <span className={styles.roomLabel}>Pokój:</span>
+            <span className={styles.roomValue}>{reservation.roomNumber}</span>
           </div>
         )}
-        
+
         {reservation.notes && (
-          <div className="notes">
+          <div className={styles.notes}>
             <p>{reservation.notes}</p>
           </div>
         )}
@@ -50,4 +51,4 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusCo
   );
 };
 
-export default ReservationCard; 
+export default ReservationCard;
