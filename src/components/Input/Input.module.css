@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column
+}
+
+.label {
+  margin-block-end: 0.5rem;
+  font-size: 1rem;
+}
+
+.input {
+  padding: 4px 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+}
+
+.input:focus-visible {
+  outline-color: hsl(var(--priamry))
+}
+
+.input::placeholder {
+  color: hsl(var(--text-dark-muted));
+  opacity: 1;
+}
