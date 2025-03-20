@@ -7,18 +7,27 @@ import { Label } from "../Label/Label.tsx";
 
 interface SelectProps extends React.ComponentProps<typeof SelectPrimitive.Root> {
   label: string;
+  error?: string;
   ref?: React.Ref<HTMLButtonElement> | undefined;
 }
 
-const Select: React.FC<SelectProps> = ({ label, children, ref, ...props }) => {
+const Select: React.FC<SelectProps> = ({ label, error, children, ref, ...props }) => {
   const id = React.useId();
 
   return (
     <div>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} isError={Boolean(error)}>
+        {label}
+      </Label>
 
       <SelectPrimitive.Root {...props}>
-        <SelectPrimitive.Trigger className={styles.trigger} id={id} ref={ref}>
+        <SelectPrimitive.Trigger
+          className={styles.trigger}
+          id={id}
+          ref={ref}
+          aria-describedby={error && `${id}-error`}
+          aria-invalid={Boolean(error)}
+        >
           <SelectPrimitive.Value />
           <SelectPrimitive.Icon className={styles.icon}>
             <ChevronDownIcon />
@@ -31,6 +40,12 @@ const Select: React.FC<SelectProps> = ({ label, children, ref, ...props }) => {
           </SelectPrimitive.Content>
         </SelectPrimitive.Portal>
       </SelectPrimitive.Root>
+
+      {error ? (
+        <p id={`${id}-error`} className={styles.errorMessage}>
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 };

@@ -14,9 +14,10 @@ import styles from "./RangeDatePicker.module.css";
 interface DatepickerProps extends Omit<PropsRange, "mode"> {
   label: string;
   numberOfMonths?: number | undefined;
+  error?: string;
 }
 
-const RangeDatePicker: React.FC<DatepickerProps> = ({ label, selected, onSelect, ...props }) => {
+const RangeDatePicker: React.FC<DatepickerProps> = ({ label, error, selected, onSelect, ...props }) => {
   const id = React.useId();
 
   function getButtonContent(selected: DateRange | undefined) {
@@ -29,11 +30,19 @@ const RangeDatePicker: React.FC<DatepickerProps> = ({ label, selected, onSelect,
 
   return (
     <div className={styles.container}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} isError={Boolean(error)}>
+        {label}
+      </Label>
 
       <Popover>
         <PopoverTrigger asChild>
-          <button className={styles.triggerButton} id={id} type="button">
+          <button
+            className={styles.triggerButton}
+            id={id}
+            type="button"
+            aria-describedby={error && `${id}-error`}
+            aria-invalid={Boolean(error)}
+          >
             <CalendarIcon aria-hidden="true" />
             {getButtonContent(selected)}
           </button>
@@ -51,6 +60,12 @@ const RangeDatePicker: React.FC<DatepickerProps> = ({ label, selected, onSelect,
           />
         </PopoverContent>
       </Popover>
+
+      {error ? (
+        <p id={`${id}-error`} className={styles.errorMessage}>
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 };

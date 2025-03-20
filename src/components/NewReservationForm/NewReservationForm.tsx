@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
 import { Controller, useForm } from "react-hook-form";
@@ -9,6 +10,7 @@ import { Select, SelectItem } from "../Select/Select.tsx";
 
 import useMutate, { FetchOptions } from "../../hooks/useMutate.ts";
 import { cleanData } from "../../utils/cleanData.ts";
+import { getRangeDatePickerError, transformFormDataToReservation } from "./NewReservationFrom.utils.ts";
 import {
   AVAILABLE_STATUS_TYPES,
   AVAILABLE_STATUS_TYPES_ARRAY,
@@ -20,28 +22,22 @@ import { Reservation } from "../../types/reservation.ts";
 
 import styles from "./NewReservationForm.module.css";
 
-const transformFormDataToReservation = (data: ReservationFormData) => ({
-  guestName: `${data.name} ${data.surname}`,
-  checkInDate: data.arrivalDepartureDate.from.toISOString(),
-  checkOutDate: data.arrivalDepartureDate.to.toISOString(),
-  status: data.status,
-  roomNumber: data.roomNumber,
-  notes: data.notes,
-  email: data.email
-});
-
 const NewReservationForm = () => {
   const navigate = useNavigate();
-  const { loading, error, mutate } = useMutate<Reservation>();
+  const { loading, mutate } = useMutate<Reservation>();
 
   const {
     register,
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors }
   } = useForm<ReservationFormData>({
-    resolver: zodResolver(reservationSchema)
+    resolver: zodResolver(reservationSchema),
+    defaultValues: {
+      status: AVAILABLE_STATUS_TYPES.RESERVED.value
+    }
   });
 
   const arrivalDate = watch("arrivalDepartureDate");
@@ -63,12 +59,17 @@ const NewReservationForm = () => {
 
     mutate(url, options)
       .then(() => {
+        toast.success("Reservation created successfully!");
         navigate("/");
-        console.log("Reservation created successfully!");
       })
-      .catch((err) => {
-        console.error("Error creating reservation:", err);
+      .catch(() => {
+        toast.error("Coś poszło nie tak, spróbuj ponownie później");
       });
+  }
+
+  function handleCancelButtonClick() {
+    reset();
+    navigate("/");
   }
 
   return (
@@ -77,12 +78,12 @@ const NewReservationForm = () => {
         <h2 className={styles.subTitle}>Dane gościa</h2>
 
         <div className={styles.guestInfoRow}>
-          <Input label="Imię" {...register("name")} />
-          <Input label="Nazwisko" {...register("surname")} />
+          <Input label="Imię" error={errors.name?.message} {...register("name")} />
+          <Input label="Nazwisko" error={errors.surname?.message} {...register("surname")} />
         </div>
 
         <div className={styles.guestInfoRow}>
-          <Input label="Email" type="email" {...register("email")} />
+          <Input label="Email" type="email" error={errors.email?.message} {...register("email")} />
         </div>
       </div>
 
@@ -97,6 +98,7 @@ const NewReservationForm = () => {
               <RangeDatePicker
                 label="Data przyjazdu - Data wyjazdu"
                 disabled={{ before: new Date() }}
+                error={getRangeDatePickerError(errors.arrivalDepartureDate)}
                 numberOfMonths={2}
                 selected={field.value}
                 onSelect={field.onChange}
@@ -108,7 +110,7 @@ const NewReservationForm = () => {
             name="status"
             control={control}
             render={({ field }) => (
-              <Select label="Status" value={field.value} onValueChange={field.onChange}>
+              <Select label="Status" error={errors.status?.message} value={field.value} onValueChange={field.onChange}>
                 {AVAILABLE_STATUS_TYPES_ARRAY.map(({ label, value }, index) => (
                   <SelectItem
                     key={index}
@@ -124,13 +126,13 @@ const NewReservationForm = () => {
         </div>
 
         <div className={styles.reservationDetailsRow}>
-          <Input label="Numer pokoju" {...register("roomNumber")} />
-          <Input label="Notatki" {...register("notes")} />
+          <Input label="Numer pokoju" error={errors.roomNumber?.message} {...register("roomNumber")} />
+          <Input label="Notatki" error={errors.notes?.message} {...register("notes")} />
         </div>
       </div>
 
       <div className={styles.actions}>
-        <Button variant="outline" type="button">
+        <Button variant="outline" type="button" onClick={handleCancelButtonClick}>
           Anuluj
         </Button>
         <Button disabled={loading}>Dodaj rezerwacje</Button>

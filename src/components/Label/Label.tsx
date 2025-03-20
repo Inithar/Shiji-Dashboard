@@ -3,8 +3,12 @@ import { Label as RadixLabel } from "@radix-ui/react-label";
 
 import styles from "./Label.module.css";
 
-const Label: React.FC<React.ComponentProps<typeof RadixLabel>> = ({ className, ref, ...delegated }) => (
-  <RadixLabel ref={ref} className={`${styles.label} ${className}`} {...delegated} />
+interface LabelProps extends React.ComponentProps<typeof RadixLabel> {
+  isError?: boolean;
+}
+
+const Label: React.FC<LabelProps> = ({ className, ref, isError, ...delegated }) => (
+  <RadixLabel ref={ref} className={`${styles.label} ${isError && styles.error} ${className}`} {...delegated} />
 );
 
 export { Label };
