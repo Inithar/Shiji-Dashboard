@@ -1,0 +1,43 @@
+.guestInfoRow,
+.reservationDetailsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guestInfoRow:not(:first-of-type),
+.reservationDetailsRow:not(:first-of-type) {
+  margin-block-start: 16px;
+}
+
+.reservationDetails {
+  margin-block: 32px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (min-width: 36rem) {
+  .guestInfoRow,
+  .reservationDetailsRow {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .guestInfoRow > div,
+  .reservationDetailsRow > div,
+  .reservationDetailsRow > button {
+    flex: 1;
+  }
+
+  .guestInfoRow:nth-of-type(2) {
+    max-width: 440px;
+  }
+
+  .reservationDetailsRow:nth-of-type(2) > div:first-child {
+    max-width: 184px;
+  }
+}
