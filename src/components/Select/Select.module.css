@@ -1,0 +1,159 @@
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  width: 100%;
+  min-height: 38px;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.trigger:focus {
+  border-color:  hsl(var(--primary));
+}
+
+.trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.icon {
+  margin-block-end: 3px;
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.5;
+}
+
+.content {
+  position: relative;
+  z-index: 50;
+  min-width: 128px;
+  color: hsl(var(--text-dark));
+  background-color: hsl(var(--page-background));
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+}
+
+.content[data-state="open"] {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.content[data-state="closed"] {
+  animation: fadeOut 0.2s ease-in-out;
+}
+
+.content[data-side="bottom"] {
+  animation: slideInFromTop 0.2s ease-in-out;
+}
+
+.content[data-side="left"] {
+  animation: slideInFromRight 0.2s ease-in-out;
+}
+
+.content[data-side="right"] {
+  animation: slideInFromLeft 0.2s ease-in-out;
+}
+
+.content[data-side="top"] {
+  animation: slideInFromBottom 0.2s ease-in-out;
+}
+
+.viewport {
+  padding: 4px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6px 32px 6px 8px;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 2px;
+  cursor: default;
+  user-select: none;
+  outline: none;
+}
+
+.item:focus {
+  background-color: hsl(var(--gray-200));
+}
+
+.item[data-disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.itemIndicator {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  height: 14px;
+  width: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
