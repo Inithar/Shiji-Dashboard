@@ -18,6 +18,11 @@
   background-color: transparent;
   border: 1px solid hsl(var(--border));
   border-radius: 6px;
+  transition: outline-color 300ms;
+}
+
+.triggerButton:focus-visible {
+  outline-color: hsl(var(--primary));
 }
 
 .triggerButton svg {

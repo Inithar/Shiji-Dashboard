@@ -11,12 +11,11 @@
   background-color: transparent;
   border: 1px solid hsl(var(--border));
   border-radius: 6px;
-  outline: none;
-  transition: border-color 0.2s;
+  transition: outline-color 0.2s;
 }
 
-.trigger:focus {
-  border-color:  hsl(var(--primary));
+.trigger:focus-visible {
+  outline-color:  hsl(var(--primary));
 }
 
 .trigger:disabled {
@@ -85,7 +84,7 @@
   outline: none;
 }
 
-.item:focus {
+.item:focus-visible {
   background-color: hsl(var(--gray-200));
 }
 

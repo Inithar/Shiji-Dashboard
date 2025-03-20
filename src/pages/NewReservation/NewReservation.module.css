@@ -1,0 +1,92 @@
+.wrapper {
+  padding: 24px 16px 32px;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 700px;
+}
+
+.title {
+  margin-block-end: 1rem;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.subTitle {
+  margin-block-end: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: hsl(var(--text-dark-muted));
+}
+
+.separator {
+  margin-block: 24px;
+  width: 100%;
+  height: 1px;
+  background-color: hsl(var(--border));
+}
+
+.guestInfoRow,
+.reservationDetailsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guestInfoRow:not(:first-of-type),
+.reservationDetailsRow:not(:first-of-type) {
+  margin-block-start: 16px;
+}
+
+.reservationDetails {
+  margin-block: 32px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (min-width: 36rem) {
+  .wrapper {
+    padding-block: 48px 64px;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .guestInfoRow,
+  .reservationDetailsRow {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .guestInfoRow > div,
+  .reservationDetailsRow > div,
+  .reservationDetailsRow > button {
+    flex: 1;
+  }
+
+  .guestInfoRow:nth-of-type(2) {
+    max-width: 440px;
+  }
+
+  .reservationDetailsRow:nth-of-type(2) > div:first-child {
+    max-width: 184px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .wrapper {
+    padding-block: 80px 96px;
+  }
+}
+
