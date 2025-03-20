@@ -4,6 +4,7 @@ import { DayPicker, DateRange, PropsRange } from "react-day-picker";
 import { pl } from "react-day-picker/locale";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover.tsx";
+import { Label } from "../Label/Label.tsx";
 
 import { formatDate } from "../../utils/dateFormatters.ts";
 
@@ -16,6 +17,8 @@ interface DatepickerProps extends Omit<PropsRange, "mode"> {
 }
 
 const RangeDatePicker: React.FC<DatepickerProps> = ({ label, selected, onSelect, ...props }) => {
+  const id = React.useId();
+
   function getButtonContent(selected: DateRange | undefined) {
     if (selected?.from && selected?.to) {
       return `${formatDate(selected.from.toString())} - ${formatDate(selected.to.toString())}`;
@@ -26,13 +29,11 @@ const RangeDatePicker: React.FC<DatepickerProps> = ({ label, selected, onSelect,
 
   return (
     <div className={styles.container}>
-      <label className={styles.label} htmlFor="arrival-departure-date">
-        {label}
-      </label>
+      <Label htmlFor={id}>{label}</Label>
 
       <Popover>
         <PopoverTrigger asChild>
-          <button className={styles.triggerButton} id="arrival-departure-date" type="button">
+          <button className={styles.triggerButton} id={id} type="button">
             <CalendarIcon aria-hidden="true" />
             {getButtonContent(selected)}
           </button>

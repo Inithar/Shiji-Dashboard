@@ -7,14 +7,14 @@ const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
-const PopoverContent = ({
+const PopoverContent: React.FC<React.ComponentProps<typeof PopoverPrimitive.Content>> = ({
   align = "center",
   sideOffset = 4,
   className,
   children,
   ref,
   ...delegated
-}: React.ComponentProps<typeof PopoverPrimitive.Content>) => (
+}) => (
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       align={align}
