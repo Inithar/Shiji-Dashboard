@@ -1,0 +1,93 @@
+.popoverContent {
+  padding: 16px;
+  width: fit-content;
+  color: black;
+  background-color: hsl(var(--page-background));
+  border-radius: 6px;
+  border: 1px solid hsl(var(--border));
+  outline: none;
+  box-shadow: 0 4px 6px -1px hsla(var(--black), 0.1), 0 2px 4px -1px hsla(var(--black), 0.06);
+  z-index: 50;
+}
+
+.popoverContent[data-state="open"] {
+  opacity: 1;
+  transform: scale(1);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.popoverContent[data-state="closed"] {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeOut 0.2s ease-in-out;
+}
+
+.popoverContent[data-side="bottom"] {
+  animation: slideInFromTop 0.2s ease-in-out;
+}
+
+.popoverContent[data-side="left"] {
+  animation: slideInFromRight 0.2s ease-in-out;
+}
+
+.popoverContent[data-side="right"] {
+  animation: slideInFromLeft 0.2s ease-in-out;
+}
+
+.popoverContent[data-side="top"] {
+  animation: slideInFromBottom 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
