@@ -1,0 +1,38 @@
+.btn {
+  padding: var(--padding);
+  font-size: var(--font-size);
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  transition: background-color 300ms;
+}
+
+.btn:focus-visible {
+  outline-color: hsl(var(--primary));
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primary {
+  color: hsl(var(--text-light));
+  background-color: hsl(var(--primary));
+}
+
+.primary:hover {
+  background-color: hsla(var(--primary), 0.9);
+}
+
+.outline {
+  color: hsl(var(--text-dark));
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
+}
+
+.outline:hover {
+  background-color: hsl(var(--gray-200));
+}

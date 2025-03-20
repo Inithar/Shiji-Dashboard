@@ -4,7 +4,7 @@
   font-weight: 400;
   color: hsl(var(--text-dark));
 
-  --priamry: 262.1 83.3% 57.8%;
+  --primary: 262.1, 83.3%, 57.8%;
 
   --white: 0, 0%, 100%;
   --black: 0, 0%, 0%;
@@ -17,13 +17,14 @@
   --gray-600: 210, 29%, 29%;
   --gray-700: 210, 29%, 24%;
 
-  --text-dark: 240 10% 3.9%;
-  --text-dark-muted: 240 3.8% 46.1%;
+  --text-light: 210, 20%, 98%;
+  --text-dark: 240, 10%, 3.9%;
+  --text-dark-muted: 240, 3.8%, 46.1%;
 
   --link-color: 204, 70%, 53%;
   --link-hover-color: 204, 64%, 44%;
   --page-background: 210, 17%, 98%;
-  --border: 240 5.9% 90%;
+  --border: 240, 5.9%, 90%;
 
   --scrollbar-track-color: 0, 0%, 95%;
   --scrollbar-thumb-color: 204, 8%, 76%;
