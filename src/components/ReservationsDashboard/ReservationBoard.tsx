@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import ReservationCard from "./ReservationCard/ReservationCard";
+import Column from "./Column/Column.tsx";
 
 import { Reservation, ReservationStatus } from "../../types/reservation";
 
@@ -29,35 +29,12 @@ const ReservationBoard: React.FC<ReservationBoardProps> = ({ reservations }) => 
     return groups;
   }, [reservations]);
 
-  const statusColors: Record<ReservationStatus, string> = {
-    Reserved: "#3498db",
-    "Due In": "#2ecc71",
-    "In House": "#9b59b6",
-    "Due Out": "#f39c12",
-    "Checked Out": "#7f8c8d",
-    Canceled: "#e74c3c",
-    "No Show": "#c0392b"
-  };
+  const memoizedGroupedReservations = useMemo(() => Object.entries(groupedReservations), [groupedReservations]);
 
   return (
     <div className={styles.reservationBoard}>
-      {Object.entries(groupedReservations).map(([status, reservationList]) => (
-        <div key={status} className={styles.statusColumn}>
-          <div className={styles.statusHeader} style={{ backgroundColor: statusColors[status as ReservationStatus] }}>
-            <h2>{status}</h2>
-            <span className={styles.reservationCount}>{reservationList.length}</span>
-          </div>
-          <div className={styles.reservationList}>
-            {reservationList.map((reservation) => (
-              <ReservationCard
-                key={reservation.id}
-                reservation={reservation}
-                statusColor={statusColors[reservation.status]}
-              />
-            ))}
-            {reservationList.length === 0 && <div className={styles.emptyStatus}>Brak rezerwacji</div>}
-          </div>
-        </div>
+      {memoizedGroupedReservations.map(([status, reservationList]) => (
+        <Column key={status} status={status as ReservationStatus} reservationList={reservationList} />
       ))}
     </div>
   );
