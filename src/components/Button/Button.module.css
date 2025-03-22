@@ -36,3 +36,13 @@
 .outline:hover {
   background-color: hsl(var(--gray-200));
 }
+
+.destructive {
+  color: hsl(var(--text-light));
+  background-color: hsl(var(--destructive));
+}
+
+.destructive:hover {
+  background-color: hsla(var(--destructive), 0.9);
+}
+

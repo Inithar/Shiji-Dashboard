@@ -21,7 +21,7 @@ const App = () => (
             }
           />
           <Route path="/add" element={<NewReservation />} />
-          <Route path="/edit" element={<EditReservation />} />
+          <Route path="/edit/:id" element={<EditReservation />} />
         </Route>
       </Routes>
     </BrowserRouter>

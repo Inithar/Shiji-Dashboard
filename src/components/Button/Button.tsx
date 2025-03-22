@@ -7,12 +7,17 @@ const SIZES = {
     "--border-radius": "6px",
     "--font-size": "1rem",
     "--padding": "8px 16px"
+  },
+  large: {
+    "--border-radius": "8px",
+    "--font-size": "1.1rem",
+    "--padding": "12px 20px"
   }
 };
 
 interface ButtonProps extends React.ComponentProps<"button"> {
-  variant?: "primary" | "outline";
-  size?: "medium";
+  variant?: "primary" | "outline" | "destructive";
+  size?: keyof typeof SIZES;
 }
 
 const Button: React.FC<ButtonProps> = ({ variant = "primary", size = "medium", children, className, ...delegated }) => (

@@ -1,0 +1,61 @@
+.dialogTrigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--text-dark));
+  background-color: transparent;
+  border: none;
+  transition: background-color 300ms;
+}
+
+.dialogTrigger:hover {
+  color: hsl(var(--destructive));
+  background-color: hsl(var(--gray-200));
+}
+
+.dialogTrigger:focus-visible {
+  outline-color: hsl(var(--primary));
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.iconBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  background-color: hsla(var(--destructive), 0.15);
+  border-radius: 12px
+}
+
+.iconBox > svg {
+  width: 32px;
+  height: 32px;
+  color: hsl(var(--destructive));
+}
+
+.dialogTitle {
+  margin-block: 1.5rem 2rem;
+  max-width: 320px;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.actions > button {
+  flex: 1;
+}

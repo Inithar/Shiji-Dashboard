@@ -1,9 +1,9 @@
 .reservationCard {
+  position: relative;
   background-color: hsl(var(--white));
   border-radius: 6px;
   box-shadow: 0 2px 4px hsla(var(--black), 0.1);
   overflow: hidden;
-  position: relative;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -38,24 +38,50 @@
   color: hsl(var(--gray-700));
 }
 
-.actionButton {
+.actionsTriggerBtn {
   margin-left: 0.3rem;
-}
-
-.btnAction {
-  background: none;
-  border: none;
-  cursor: pointer;
+  padding: 0.1rem 0.3rem;
   font-size: 1.1rem;
   color: hsl(var(--gray-400));
-  padding: 0.1rem 0.3rem;
+  background: none;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.btnAction:hover {
+.actionsTriggerBtn:hover {
   background-color: hsl(var(--gray-200));
   color: hsl(var(--gray-700));
+}
+
+.actionsContent {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem !important;
+  min-width: 80px;
+  background-color: hsl(var(--white)) !important;
+}
+
+.editReservationLink {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--text-dark));
+  background-color: transparent;
+  transition: background-color 300ms;
+}
+
+.editReservationLink:hover {
+  color: hsl(var(--text-dark));
+  background-color: hsl(var(--gray-200));
+}
+
+.editReservationLink:focus-visible {
+  outline-color: hsl(var(--primary));
 }
 
 .stayDates {
@@ -90,18 +116,18 @@
 }
 
 .roomValue {
+  padding: 0.1rem 0.4rem;
   font-weight: 500;
   color: hsl(var(--gray-600));
   background-color: hsl(var(--gray-300));
-  padding: 0.1rem 0.4rem;
   border-radius: 4px;
 }
 
 .notes {
-  background-color: hsl(var(--gray-100));
-  padding: 0.4rem;
-  border-radius: 4px;
   margin-top: 0.3rem;
+  padding: 0.4rem;
+  background-color: hsl(var(--gray-100));
+  border-radius: 4px;
 }
 
 .notes p {

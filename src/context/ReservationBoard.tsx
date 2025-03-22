@@ -13,6 +13,7 @@ interface ReservationBoardContext {
   reservationsError: string | null;
   draggedReservationRef: React.RefObject<Reservation | null>;
   handleReservationStatusUpdate: (reservationId: string, newStatus: ReservationStatus) => void;
+  deleteReservation: (id: string) => void;
 }
 
 export const ReservationBoardContext = React.createContext<ReservationBoardContext | null>(null);
@@ -27,7 +28,8 @@ export const ReservationBoardProvider: React.FC<{ children: React.ReactNode }> =
     updateData
   } = useQuery<Reservation[] | null>("http://localhost:3000/reservations");
 
-  const { mutate } = useMutate<Reservation>();
+  const { mutate: updateReservationApi } = useMutate<Reservation>();
+  const { mutate: deleteReservationApi } = useMutate<Reservation>();
 
   const mappedReservations = useMemo(() => {
     if (!reservations) {
@@ -54,7 +56,7 @@ export const ReservationBoardProvider: React.FC<{ children: React.ReactNode }> =
         body: JSON.stringify({ status: newStatus })
       };
 
-      mutate(url, options)
+      updateReservationApi(url, options)
         .then(() => {
           toast.success(`Pomyślnie zmieniono status rezerwacji nr. ${reservationId} na ${newStatus}`);
 
@@ -70,7 +72,35 @@ export const ReservationBoardProvider: React.FC<{ children: React.ReactNode }> =
           toast.error(`Nie udało się zmienić status rezerwacji nr. ${reservationId} na ${newStatus}`);
         });
     },
-    [mutate, updateData]
+    [updateReservationApi, updateData]
+  );
+
+  const deleteReservation = useCallback(
+    (id: string) => {
+      const url = `${BASE_URL}/reservations/${id}`;
+
+      const options: FetchOptions = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
+
+      deleteReservationApi(url, options)
+        .then(() => {
+          toast.success(`Pomyślnie usunięto rezerwajce nr. ${id}`);
+
+          updateData((currentData) => {
+            if (!currentData) return currentData;
+
+            return currentData.filter((reservation) => reservation.id !== id);
+          });
+        })
+        .catch(() => {
+          toast.error(`Nie udało się usunąć rezerwacji nr. ${id}. Spróbuj ponownie później.`);
+        });
+    },
+    [deleteReservationApi, updateData]
   );
 
   const value = useMemo(
@@ -79,9 +109,10 @@ export const ReservationBoardProvider: React.FC<{ children: React.ReactNode }> =
       isReservationsLoading: loading,
       reservationsError: error,
       draggedReservationRef,
-      handleReservationStatusUpdate
+      handleReservationStatusUpdate,
+      deleteReservation
     }),
-    [mappedReservations, loading, error, handleReservationStatusUpdate]
+    [mappedReservations, loading, error, handleReservationStatusUpdate, deleteReservation]
   );
 
   return <ReservationBoardContext value={value}>{children}</ReservationBoardContext>;
