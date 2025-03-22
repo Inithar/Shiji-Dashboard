@@ -21,17 +21,22 @@
   border-radius: 6px;
 }
 
-.input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 100rem hsla(var(--primary), 0.15) inset;
-}
-
 .input:focus-visible {
   outline-color: hsl(var(--primary))
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .input::placeholder {
   color: hsl(var(--text-dark-muted));
   opacity: 1;
+}
+
+.input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100rem hsla(var(--primary), 0.15) inset;
 }
 
 .errorMessage {

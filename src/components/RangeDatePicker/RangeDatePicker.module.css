@@ -21,6 +21,11 @@
   transition: outline-color 300ms;
 }
 
+.triggerButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .triggerButton:focus-visible {
   outline-color: hsl(var(--primary));
 }

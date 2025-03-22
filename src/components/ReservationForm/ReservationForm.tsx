@@ -1,3 +1,4 @@
+import React from "react";
 import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
@@ -10,19 +11,37 @@ import { Select, SelectItem } from "../Select/Select.tsx";
 
 import useMutate, { FetchOptions } from "../../hooks/useMutate.ts";
 import { cleanData } from "../../utils/cleanData.ts";
-import { getRangeDatePickerError, transformFormDataToReservation } from "./NewReservationFrom.utils.ts";
+import { getRangeDatePickerError, transformFormDataToReservation } from "./ReservationFrom.utils.ts";
 import {
   AVAILABLE_STATUS_TYPES,
   AVAILABLE_STATUS_TYPES_ARRAY,
   reservationSchema,
   ReservationFormData
-} from "./NewReservationForm.constants.ts";
-import { BASE_URL } from "../../constants/constants.ts";
+} from "./ReservationForm.constants.ts";
 import { Reservation } from "../../types/reservation.ts";
 
-import styles from "./NewReservationForm.module.css";
+import styles from "./ReservationForm.module.css";
 
-const NewReservationForm = () => {
+interface MutationConfig {
+  url: string;
+  method: "POST" | "PATCH";
+  successMessage: string;
+  errorMessage: string;
+}
+
+interface ReservationFormProps {
+  initialValues?: Partial<ReservationFormData>;
+  mutationConfig: MutationConfig;
+  submitButtonText: string;
+  disabledFields?: (keyof ReservationFormData)[];
+}
+
+const ReservationForm: React.FC<ReservationFormProps> = ({
+  initialValues,
+  mutationConfig,
+  submitButtonText,
+  disabledFields = []
+}) => {
   const navigate = useNavigate();
   const { loading, mutate } = useMutate<Reservation>();
 
@@ -36,35 +55,34 @@ const NewReservationForm = () => {
   } = useForm<ReservationFormData>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
-      status: AVAILABLE_STATUS_TYPES.RESERVED.value
+      status: AVAILABLE_STATUS_TYPES.RESERVED.value,
+      ...initialValues
     }
   });
 
   const arrivalDate = watch("arrivalDepartureDate");
   const isArrivalToday = arrivalDate && new Date(arrivalDate.from).toDateString() === new Date().toDateString();
 
-  function onSubmit(data: ReservationFormData) {
-    const url = `${BASE_URL}/reservations`;
-
+  async function onSubmit(data: ReservationFormData) {
     const transformedData = transformFormDataToReservation(data);
     const cleanedData = cleanData(transformedData);
 
     const options: FetchOptions = {
-      method: "POST",
+      method: mutationConfig.method,
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(cleanedData)
     };
 
-    mutate(url, options)
-      .then(() => {
-        toast.success("Reservation created successfully!");
-        navigate("/");
-      })
-      .catch(() => {
-        toast.error("Coś poszło nie tak, spróbuj ponownie później");
-      });
+    try {
+      await mutate(mutationConfig.url, options);
+
+      toast.success(mutationConfig.successMessage);
+      navigate("/");
+    } catch (error) {
+      toast.error(mutationConfig.errorMessage);
+    }
   }
 
   function handleCancelButtonClick() {
@@ -78,12 +96,29 @@ const NewReservationForm = () => {
         <h2 className={styles.subTitle}>Dane gościa</h2>
 
         <div className={styles.guestInfoRow}>
-          <Input label="Imię" error={errors.name?.message} {...register("name")} />
-          <Input label="Nazwisko" error={errors.surname?.message} {...register("surname")} />
+          <Input
+            label="Imię"
+            error={errors.name?.message}
+            disabled={disabledFields.includes("name")}
+            {...register("name")}
+          />
+
+          <Input
+            label="Nazwisko"
+            error={errors.surname?.message}
+            disabled={disabledFields.includes("surname")}
+            {...register("surname")}
+          />
         </div>
 
         <div className={styles.guestInfoRow}>
-          <Input label="Email" type="email" error={errors.email?.message} {...register("email")} />
+          <Input
+            label="Email"
+            type="email"
+            error={errors.email?.message}
+            disabled={disabledFields.includes("email")}
+            {...register("email")}
+          />
         </div>
       </div>
 
@@ -97,6 +132,7 @@ const NewReservationForm = () => {
             render={({ field }) => (
               <RangeDatePicker
                 label="Data przyjazdu - Data wyjazdu"
+                disableTrigger={disabledFields.includes("arrivalDepartureDate")}
                 disabled={{ before: new Date() }}
                 error={getRangeDatePickerError(errors.arrivalDepartureDate)}
                 numberOfMonths={2}
@@ -110,7 +146,13 @@ const NewReservationForm = () => {
             name="status"
             control={control}
             render={({ field }) => (
-              <Select label="Status" error={errors.status?.message} value={field.value} onValueChange={field.onChange}>
+              <Select
+                label="Status"
+                error={errors.status?.message}
+                value={field.value}
+                onValueChange={field.onChange}
+                disabled={disabledFields.includes("status")}
+              >
                 {AVAILABLE_STATUS_TYPES_ARRAY.map(({ label, value }, index) => (
                   <SelectItem
                     key={index}
@@ -126,8 +168,19 @@ const NewReservationForm = () => {
         </div>
 
         <div className={styles.reservationDetailsRow}>
-          <Input label="Numer pokoju" error={errors.roomNumber?.message} {...register("roomNumber")} />
-          <Input label="Notatki" error={errors.notes?.message} {...register("notes")} />
+          <Input
+            label="Numer pokoju"
+            error={errors.roomNumber?.message}
+            disabled={disabledFields.includes("roomNumber")}
+            {...register("roomNumber")}
+          />
+
+          <Input
+            label="Notatki"
+            error={errors.notes?.message}
+            disabled={disabledFields.includes("notes")}
+            {...register("notes")}
+          />
         </div>
       </div>
 
@@ -135,10 +188,10 @@ const NewReservationForm = () => {
         <Button variant="outline" type="button" onClick={handleCancelButtonClick}>
           Anuluj
         </Button>
-        <Button disabled={loading}>Dodaj rezerwacje</Button>
+        <Button disabled={loading}>{submitButtonText}</Button>
       </div>
     </form>
   );
 };
 
-export default NewReservationForm;
+export default ReservationForm;

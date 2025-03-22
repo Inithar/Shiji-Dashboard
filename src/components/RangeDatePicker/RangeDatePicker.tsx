@@ -15,9 +15,10 @@ interface DatepickerProps extends Omit<PropsRange, "mode"> {
   label: string;
   numberOfMonths?: number | undefined;
   error?: string;
+  disableTrigger?: boolean;
 }
 
-const RangeDatePicker: React.FC<DatepickerProps> = ({ label, error, selected, onSelect, ...props }) => {
+const RangeDatePicker: React.FC<DatepickerProps> = ({ label, error, disableTrigger, selected, onSelect, ...props }) => {
   const id = React.useId();
 
   function getButtonContent(selected: DateRange | undefined) {
@@ -40,6 +41,7 @@ const RangeDatePicker: React.FC<DatepickerProps> = ({ label, error, selected, on
             className={styles.triggerButton}
             id={id}
             type="button"
+            disabled={disableTrigger}
             aria-describedby={error && `${id}-error`}
             aria-invalid={Boolean(error)}
           >

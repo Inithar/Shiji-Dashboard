@@ -1,18 +1,23 @@
-import NewReservationForm from "../../components/NewReservationForm/NewReservationForm.tsx";
+import ReservationForm from "../../components/ReservationForm/ReservationForm.tsx";
+import ReservationFormLayout from "../../layouts/ReservationFormLayout/ReservationFormLayout.tsx";
 
-import styles from "./NewReservation.module.css";
+import { BASE_URL } from "../../constants/constants.ts";
 
 const NewReservation = () => (
-  <main className={styles.wrapper}>
-    <div>
-      <h1 className={styles.title}>Nowa Rezerwacja</h1>
-      <p className={styles.description}>Wypełnij poniższe dane, aby dodać nową rezerwację dla gościa hotelowego.</p>
-    </div>
-
-    <div className={styles.separator} />
-
-    <NewReservationForm />
-  </main>
+  <ReservationFormLayout
+    title="Nowa Rezerwacja"
+    description="Wypełnij poniższe dane, aby dodać nową rezerwację dla gościa hotelowego."
+  >
+    <ReservationForm
+      submitButtonText="Dodaj rezerwację"
+      mutationConfig={{
+        url: `${BASE_URL}/reservations`,
+        method: "POST",
+        successMessage: "Pomyślnie utworzono rezerwacje",
+        errorMessage: "Utworzenie rezerwacji nie powiodło się, spróbuj ponownie później"
+      }}
+    />
+  </ReservationFormLayout>
 );
 
 export default NewReservation;

@@ -73,7 +73,6 @@ export const ReservationBoardProvider: React.FC<ReservationBoardProviderProps> =
         });
       } catch (error) {
         toast.error(`Nie udało się zmienić status rezerwacji nr. ${reservationId} na ${newStatus}`);
-        console.error(error);
       }
     },
     [updateReservation, updateData]
@@ -98,7 +97,6 @@ export const ReservationBoardProvider: React.FC<ReservationBoardProviderProps> =
         });
       } catch (error) {
         toast.error(`Failed to delete reservation #${reservationId}`);
-        console.error(error);
       }
     },
     [deleteReservation, updateData]

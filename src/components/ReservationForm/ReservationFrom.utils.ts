@@ -1,6 +1,6 @@
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
-import { ReservationFormData } from "./NewReservationForm.constants.ts";
+import { ReservationFormData } from "./ReservationForm.constants.ts";
 
 type RangeDatePickerError = Merge<FieldError, FieldErrorsImpl<{ from: Date; to: Date }>> | undefined;
 
