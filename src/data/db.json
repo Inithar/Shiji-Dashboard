@@ -24,10 +24,11 @@
       "guestName": "Piotr Wiśniewski",
       "checkInDate": "2025-03-15",
       "checkOutDate": "2025-03-20",
-      "status": "In House",
+      "status": "Checked Out",
       "roomNumber": "201",
       "notes": "Śniadania w cenie",
-      "email": "piotr.wisniewski@example.com"
+      "email": "piotr.wisniewski@example.com",
+      "newStatus": "Checked Out"
     },
     {
       "id": "res-004",
@@ -43,7 +44,7 @@
       "guestName": "Tomasz Lewandowski",
       "checkInDate": "2025-03-17",
       "checkOutDate": "2025-03-21",
-      "status": "Due In",
+      "status": "Checked Out",
       "roomNumber": "301",
       "notes": "Przyjazd po 18:00",
       "email": "tomasz.lewandowski@example.com"
@@ -53,7 +54,7 @@
       "guestName": "Katarzyna Wójcik",
       "checkInDate": "2025-03-20",
       "checkOutDate": "2025-03-25",
-      "status": "Reserved",
+      "status": "Checked Out",
       "roomNumber": "101",
       "email": "katarzyna.wojcik@example.com"
     },
@@ -71,17 +72,18 @@
       "guestName": "Aleksandra Zielińska",
       "checkInDate": "2025-03-22",
       "checkOutDate": "2025-03-26",
-      "status": "Reserved",
+      "status": "Checked Out",
       "roomNumber": "104",
       "notes": "Pobyt z psem",
-      "email": "aleksandra.zielinska@example.com"
+      "email": "aleksandra.zielinska@example.com",
+      "newStatus": "Due In"
     },
     {
       "id": "res-009",
       "guestName": "Krzysztof Szymański",
       "checkInDate": "2025-03-15",
       "checkOutDate": "2025-03-19",
-      "status": "In House",
+      "status": "Checked Out",
       "roomNumber": "203",
       "email": "krzysztof.szymanski@example.com"
     },
@@ -100,7 +102,7 @@
       "guestName": "Grzegorz Duda",
       "checkInDate": "2025-03-25",
       "checkOutDate": "2025-03-30",
-      "status": "Reserved",
+      "status": "In House",
       "roomNumber": "303",
       "email": "grzegorz.duda@example.com"
     },
@@ -129,7 +131,7 @@
       "guestName": "Barbara Pawlak",
       "checkInDate": "2025-03-17",
       "checkOutDate": "2025-03-22",
-      "status": "Due In",
+      "status": "Checked Out",
       "roomNumber": "102",
       "email": "barbara.pawlak@example.com"
     },
@@ -148,7 +150,7 @@
       "guestName": "Ewa Nowakowska",
       "checkInDate": "2025-03-24",
       "checkOutDate": "2025-03-28",
-      "status": "Reserved",
+      "status": "Checked Out",
       "roomNumber": "202",
       "notes": "Widok na morze",
       "email": "ewa.nowakowska@example.com"
@@ -163,21 +165,11 @@
       "email": "adam.sikora@example.com"
     },
     {
-      "id": "res-018",
-      "guestName": "Dorota Adamczyk",
-      "checkInDate": "2025-03-26",
-      "checkOutDate": "2025-03-30",
-      "status": "Reserved",
-      "roomNumber": "302",
-      "notes": "Późny przyjazd",
-      "email": "dorota.adamczyk@example.com"
-    },
-    {
       "id": "res-019",
       "guestName": "Paweł Górski",
       "checkInDate": "2025-03-17",
       "checkOutDate": "2025-03-22",
-      "status": "Due In",
+      "status": "Canceled",
       "roomNumber": "103",
       "notes": "Pobyt biznesowy",
       "email": "pawel.gorski@example.com"
@@ -187,7 +179,7 @@
       "guestName": "Maria Witkowska",
       "checkInDate": "2025-03-29",
       "checkOutDate": "2025-04-03",
-      "status": "Reserved",
+      "status": "In House",
       "roomNumber": "104",
       "email": "maria.witkowska@example.com"
     },
@@ -226,7 +218,7 @@
       "guestName": "Karolina Jasińska",
       "checkInDate": "2025-03-27",
       "checkOutDate": "2025-04-01",
-      "status": "Reserved",
+      "status": "In House",
       "roomNumber": "301",
       "email": "karolina.jasinska@example.com"
     },
@@ -245,7 +237,7 @@
       "guestName": "Natalia Zawadzka",
       "checkInDate": "2025-03-21",
       "checkOutDate": "2025-03-25",
-      "status": "Reserved",
+      "status": "In House",
       "roomNumber": "204",
       "email": "natalia.zawadzka@example.com"
     },
@@ -264,7 +256,7 @@
       "guestName": "Weronika Sokołowska",
       "checkInDate": "2025-03-30",
       "checkOutDate": "2025-04-04",
-      "status": "Reserved",
+      "status": "Due In",
       "roomNumber": "201",
       "email": "weronika.sokolowska@example.com"
     },
@@ -279,13 +271,24 @@
       "email": "jakub.zalewski@example.com"
     },
     {
-      "id": "res-030",
-      "guestName": "Marta Sadowska",
-      "checkInDate": "2025-03-25",
-      "checkOutDate": "2025-03-29",
+      "id": "e94f",
+      "guestName": "Simon Świtała",
+      "checkInDate": "2025-03-19T23:00:00.000Z",
+      "checkOutDate": "2025-04-20T22:00:00.000Z",
+      "status": "In House",
+      "roomNumber": "123",
+      "email": "szymon.switala@proton.me",
+      "newStatus": "In House"
+    },
+    {
+      "id": "5621",
+      "guestName": "Alek Świtała",
+      "checkInDate": "2025-03-27T23:00:00.000Z",
+      "checkOutDate": "2025-04-15T22:00:00.000Z",
       "status": "Reserved",
-      "roomNumber": "303",
-      "email": "marta.sadowska@example.com"
+      "roomNumber": "123",
+      "notes": "asd",
+      "email": "test@test.me"
     }
   ]
 }

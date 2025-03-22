@@ -17,7 +17,7 @@ interface ReservationCardProps {
 }
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusColor, handleDragStart }) => {
-  const [open, setOpen] = React.useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
   return (
     <div className={styles.reservationCard} draggable="true" onDragStart={() => handleDragStart(reservation)}>
@@ -26,7 +26,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusCo
         <div className={styles.cardHeader}>
           <h3 className={styles.guestName}>{reservation.guestName}</h3>
 
-          <Popover open={open} onOpenChange={setOpen}>
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
               <button className={styles.actionsTriggerBtn} type="button">
                 ⋮
@@ -40,7 +40,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusCo
                 </Link>
               ) : null}
 
-              <DeleteReservationDialog reservation={reservation} closePopover={() => setOpen(false)} />
+              <DeleteReservationDialog reservation={reservation} onClose={() => setIsPopoverOpen(false)} />
             </PopoverContent>
           </Popover>
         </div>

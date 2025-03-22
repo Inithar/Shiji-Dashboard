@@ -11,10 +11,10 @@ import styles from "./DeleteReservationDialog.module.css";
 
 interface DeleteReservationDialogProps {
   reservation: Reservation;
-  closePopover: () => void;
+  onClose: () => void;
 }
 
-const DeleteReservationDialog: React.FC<DeleteReservationDialogProps> = ({ reservation, closePopover }) => {
+const DeleteReservationDialog: React.FC<DeleteReservationDialogProps> = ({ reservation, onClose }) => {
   const [open, setOpen] = React.useState(false);
 
   const { deleteReservation } = useReservationBoardContext();
@@ -26,7 +26,7 @@ const DeleteReservationDialog: React.FC<DeleteReservationDialogProps> = ({ reser
 
   function handleCancelButtonClick() {
     setOpen(false);
-    closePopover();
+    onClose();
   }
 
   return (

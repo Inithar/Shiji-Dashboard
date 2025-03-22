@@ -11,7 +11,7 @@ interface ReservationBoardProps {
 }
 
 const ReservationBoard: React.FC<ReservationBoardProps> = ({ reservations }) => {
-  const groupedReservations = useMemo(() => {
+  const statusColumns = useMemo(() => {
     const groups: Record<ReservationStatus, Reservation[]> = {
       Reserved: [],
       "Due In": [],
@@ -26,15 +26,13 @@ const ReservationBoard: React.FC<ReservationBoardProps> = ({ reservations }) => 
       groups[reservation.status].push(reservation);
     });
 
-    return groups;
+    return Object.entries(groups);
   }, [reservations]);
-
-  const memoizedGroupedReservations = useMemo(() => Object.entries(groupedReservations), [groupedReservations]);
 
   return (
     <div className={styles.reservationBoard}>
-      {memoizedGroupedReservations.map(([status, reservationList]) => (
-        <Column key={status} status={status as ReservationStatus} reservationList={reservationList} />
+      {statusColumns.map(([status, reservations]) => (
+        <Column key={status} status={status as ReservationStatus} reservations={reservations} />
       ))}
     </div>
   );

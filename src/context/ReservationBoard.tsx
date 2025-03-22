@@ -7,112 +7,113 @@ import { mapResponseObjectToReservation } from "../utils/reservationUtils.ts";
 import { BASE_URL } from "../constants/constants.ts";
 import { Reservation, ReservationStatus } from "../types/reservation.ts";
 
-interface ReservationBoardContext {
+interface ReservationBoardContextValue {
   reservations: Reservation[] | null;
-  isReservationsLoading: boolean;
-  reservationsError: string | null;
-  draggedReservationRef: React.RefObject<Reservation | null>;
-  handleReservationStatusUpdate: (reservationId: string, newStatus: ReservationStatus) => void;
+  isLoading: boolean;
+  error: string | null;
+  draggedReservation: React.RefObject<Reservation | null>;
+  updateReservationStatus: (reservationId: string, newStatus: ReservationStatus) => void;
   deleteReservation: (id: string) => void;
 }
 
-export const ReservationBoardContext = React.createContext<ReservationBoardContext | null>(null);
+interface ReservationBoardProviderProps {
+  children: React.ReactNode;
+}
 
-export const ReservationBoardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const draggedReservationRef = useRef<Reservation>(null);
+const RESERVATIONS_ENDPOINT = `${BASE_URL}/reservations`;
+
+export const ReservationBoardContext = React.createContext<ReservationBoardContextValue | null>(null);
+
+export const ReservationBoardProvider: React.FC<ReservationBoardProviderProps> = ({ children }) => {
+  const draggedReservation = useRef<Reservation | null>(null);
 
   const {
-    data: reservations,
-    loading,
+    data: rawReservations,
+    loading: isLoading,
     error,
     updateData
-  } = useQuery<Reservation[] | null>("http://localhost:3000/reservations");
+  } = useQuery<Reservation[] | null>(RESERVATIONS_ENDPOINT);
 
-  const { mutate: updateReservationApi } = useMutate<Reservation>();
-  const { mutate: deleteReservationApi } = useMutate<Reservation>();
+  const { mutate: updateReservation } = useMutate<Reservation>();
+  const { mutate: deleteReservation } = useMutate<null>();
 
-  const mappedReservations = useMemo(() => {
-    if (!reservations) {
+  const reservations = useMemo(() => {
+    if (!rawReservations) {
       return null;
     }
 
     try {
-      return reservations.map(mapResponseObjectToReservation);
+      return rawReservations.map(mapResponseObjectToReservation);
     } catch (error) {
       console.error(`Błąd podczas przetwarzania danych rezerwacji: ${error}`);
       return null;
     }
-  }, [reservations]);
+  }, [rawReservations]);
 
-  const handleReservationStatusUpdate = useCallback(
-    (reservationId: string, newStatus: ReservationStatus) => {
-      const url = `${BASE_URL}/reservations/${reservationId}`;
+  const handleStatusUpdate = useCallback(
+    async (reservationId: string, newStatus: ReservationStatus) => {
+      const url = `${RESERVATIONS_ENDPOINT}/${reservationId}`;
 
       const options: FetchOptions = {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })
       };
 
-      updateReservationApi(url, options)
-        .then(() => {
-          toast.success(`Pomyślnie zmieniono status rezerwacji nr. ${reservationId} na ${newStatus}`);
+      try {
+        await updateReservation(url, options);
+        toast.success(`Pomyślnie zmieniono status rezerwacji nr. ${reservationId} na ${newStatus}`);
 
-          updateData((currentData) => {
-            if (!currentData) return currentData;
+        updateData((currentData) => {
+          if (!currentData) return currentData;
 
-            return currentData.map((reservation) =>
-              reservation.id === reservationId ? { ...reservation, status: newStatus } : reservation
-            );
-          });
-        })
-        .catch(() => {
-          toast.error(`Nie udało się zmienić status rezerwacji nr. ${reservationId} na ${newStatus}`);
+          return currentData.map((reservation) =>
+            reservation.id === reservationId ? { ...reservation, status: newStatus } : reservation
+          );
         });
+      } catch (error) {
+        toast.error(`Nie udało się zmienić status rezerwacji nr. ${reservationId} na ${newStatus}`);
+        console.error(error);
+      }
     },
-    [updateReservationApi, updateData]
+    [updateReservation, updateData]
   );
 
-  const deleteReservation = useCallback(
-    (id: string) => {
-      const url = `${BASE_URL}/reservations/${id}`;
-
+  const handleDelete = useCallback(
+    async (reservationId: string) => {
+      const url = `${RESERVATIONS_ENDPOINT}/${reservationId}`;
       const options: FetchOptions = {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       };
 
-      deleteReservationApi(url, options)
-        .then(() => {
-          toast.success(`Pomyślnie usunięto rezerwajce nr. ${id}`);
+      try {
+        await deleteReservation(url, options);
+        toast.success(`Pomyślnie usunięto rezerwajce nr. ${reservationId}`);
 
-          updateData((currentData) => {
-            if (!currentData) return currentData;
+        updateData((currentData) => {
+          if (!currentData) return currentData;
 
-            return currentData.filter((reservation) => reservation.id !== id);
-          });
-        })
-        .catch(() => {
-          toast.error(`Nie udało się usunąć rezerwacji nr. ${id}. Spróbuj ponownie później.`);
+          return currentData.filter((reservation) => reservation.id !== reservationId);
         });
+      } catch (error) {
+        toast.error(`Failed to delete reservation #${reservationId}`);
+        console.error(error);
+      }
     },
-    [deleteReservationApi, updateData]
+    [deleteReservation, updateData]
   );
 
   const value = useMemo(
     () => ({
-      reservations: mappedReservations,
-      isReservationsLoading: loading,
-      reservationsError: error,
-      draggedReservationRef,
-      handleReservationStatusUpdate,
-      deleteReservation
+      reservations,
+      isLoading,
+      error,
+      draggedReservation,
+      updateReservationStatus: handleStatusUpdate,
+      deleteReservation: handleDelete
     }),
-    [mappedReservations, loading, error, handleReservationStatusUpdate, deleteReservation]
+    [reservations, isLoading, error, handleStatusUpdate, handleDelete]
   );
 
   return <ReservationBoardContext value={value}>{children}</ReservationBoardContext>;

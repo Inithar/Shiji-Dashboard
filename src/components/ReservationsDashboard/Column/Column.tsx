@@ -11,58 +11,55 @@ import styles from "./Column.module.css";
 
 interface ColumnProps {
   status: ReservationStatus;
-  reservationList: Reservation[];
+  reservations: Reservation[];
 }
 
-const isValidTransition = (originalStatus: ReservationStatus, newStatus: ReservationStatus) =>
-  allowedTransitions[originalStatus].includes(newStatus);
-
-const Column: React.FC<ColumnProps> = ({ status, reservationList }) => {
+const Column: React.FC<ColumnProps> = ({ status, reservations }) => {
   const [isActive, setIsActive] = useState(false);
-
-  const { draggedReservationRef, handleReservationStatusUpdate } = useReservationBoardContext();
-
   const columnRef = useRef<HTMLDivElement>(null);
+
+  const { draggedReservation, updateReservationStatus } = useReservationBoardContext();
+
+  const isValidTransition = (originalStatus: ReservationStatus) => allowedTransitions[originalStatus].includes(status);
 
   const handleDragStart = useCallback(
     (reservation: Reservation) => {
-      draggedReservationRef.current = reservation;
+      draggedReservation.current = reservation;
     },
-    [draggedReservationRef]
+    [draggedReservation]
   );
 
   function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
 
-    if (draggedReservationRef.current) {
-      const originalStatus = draggedReservationRef.current.status;
+    if (draggedReservation.current) {
+      const originalStatus = draggedReservation.current.status;
 
-      if (isValidTransition(originalStatus, status)) {
+      if (isValidTransition(originalStatus)) {
         setIsActive(true);
       }
     }
   }
 
   function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
-    if (columnRef.current && e.relatedTarget && !columnRef.current.contains(e.relatedTarget as Node)) {
+    if (!columnRef.current?.contains(e.relatedTarget as Node)) {
       setIsActive(false);
     }
   }
 
   function handleDrop() {
-    if (!draggedReservationRef.current) return;
+    if (!draggedReservation.current) return;
 
-    const originalStatus = draggedReservationRef.current.status;
-    const reservationId = draggedReservationRef.current.id;
+    const { id, status: originalStatus } = draggedReservation.current;
 
     if (originalStatus === status) return;
 
-    if (!isValidTransition(originalStatus, status)) {
+    if (!isValidTransition(originalStatus)) {
       toast.error(`Nie można zmienić statusu rezerwacji z ${originalStatus} na ${status}`);
       return;
     }
 
-    handleReservationStatusUpdate(reservationId, status);
+    updateReservationStatus(id, status);
     setIsActive(false);
   }
 
@@ -78,11 +75,11 @@ const Column: React.FC<ColumnProps> = ({ status, reservationList }) => {
     >
       <div className={styles.statusHeader} style={{ backgroundColor: `hsl(${statusColors[status]}` }}>
         <h2>{status}</h2>
-        <span className={styles.reservationCount}>{reservationList.length}</span>
+        <span className={styles.reservationCount}>{reservations.length}</span>
       </div>
 
-      <div className={styles.reservationList}>
-        {reservationList.map((reservation) => (
+      <div className={styles.reservations}>
+        {reservations.map((reservation) => (
           <ReservationCard
             handleDragStart={handleDragStart}
             key={reservation.id}
@@ -91,7 +88,7 @@ const Column: React.FC<ColumnProps> = ({ status, reservationList }) => {
           />
         ))}
 
-        {reservationList.length === 0 && <div className={styles.emptyStatus}>Brak rezerwacji</div>}
+        {reservations.length === 0 && <div className={styles.emptyStatus}>Brak rezerwacji</div>}
       </div>
     </div>
   );

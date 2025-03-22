@@ -42,7 +42,7 @@
   font-weight: bold;
 }
 
-.reservationList {
+.reservations {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;

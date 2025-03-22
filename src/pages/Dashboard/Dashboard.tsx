@@ -5,13 +5,13 @@ import { useReservationBoardContext } from "../../hooks/useReservationBoardConte
 import styles from "./Dashboard.module.css";
 
 const Dashboard = () => {
-  const { reservations, isReservationsLoading, reservationsError } = useReservationBoardContext();
+  const { reservations, isLoading, error } = useReservationBoardContext();
 
-  if (isReservationsLoading) {
+  if (isLoading) {
     return <div className={styles.loading}>Ładowanie danych rezerwacji...</div>;
   }
 
-  if (reservationsError || !reservations) {
+  if (error || !reservations) {
     return <div>Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.</div>;
   }
 

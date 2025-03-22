@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export interface FetchOptions {
   method?: "POST" | "PUT" | "PATCH" | "DELETE";
@@ -18,7 +18,7 @@ const useMutate = <T>(): UseMutateResult<T> => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const mutate = async (url: string, options: FetchOptions) => {
+  const mutate = useCallback(async (url: string, options: FetchOptions) => {
     setLoading(true);
     setError(null);
 
@@ -36,7 +36,7 @@ const useMutate = <T>(): UseMutateResult<T> => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return { data, loading, error, mutate };
 };
