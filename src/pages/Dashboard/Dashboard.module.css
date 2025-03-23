@@ -1,5 +1,38 @@
 .mainContent {
+  position: relative;
   padding: 0.5rem;
+}
+
+.link {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  color: hsl(var(--text-light));
+  background-color: hsl(var(--primary));
+  border-radius: 50%;
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  z-index: 10;
+  transition: background-color 300ms;
+}
+
+.link:hover {
+  background-color: hsl(var(--primary), 0.9);
+  color: hsl(var(--text-light));
+}
+
+.link:focus-visible {
+  outline-color: hsl(var(--primary));
+}
+
+.link > svg {
+  width: 24px;
+  height: 24px;
 }
 
 .loading {
@@ -9,4 +42,16 @@
   height: 50vh;
   font-size: 1.2rem;
   color: hsl(var(--gray-400));
+}
+
+@media (min-width: 36rem) {
+  .link {
+    width: 64px;
+    height: 64px;
+  }
+
+  .link > svg {
+    width: 32px;
+    height: 32px;
+  }
 }

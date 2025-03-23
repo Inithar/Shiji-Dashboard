@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
+
+import Tooltip from "../../components/Tooltip/Tooltip.tsx";
 import ReservationBoard from "../../components/ReservationsDashboard/ReservationBoard.tsx";
 
 import { useReservationBoardContext } from "../../hooks/useReservationBoardContext.ts";
@@ -17,6 +21,12 @@ const Dashboard = () => {
 
   return (
     <main className={styles.mainContent}>
+      <Tooltip content="Dodaj nową rezerwacje">
+        <Link to="/add" className={styles.link} aria-label="Dodaj nową rezerwacje">
+          <Plus aria-hidden="true" focusable="false" />
+        </Link>
+      </Tooltip>
+
       <ReservationBoard reservations={reservations} />
     </main>
   );
