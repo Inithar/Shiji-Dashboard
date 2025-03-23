@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import ReservationCard from "../ReservationCard/ReservationCard.tsx";
 
 import { useReservationBoardContext } from "../../../hooks/useReservationBoardContext.ts";
-import { allowedTransitions, statusColors } from "./Column.constants.ts";
+import { ALLOWED_STATUS_TRANSITIONS, STATUS_COLORS } from "../../../constants/constants.ts";
 import { Reservation, ReservationStatus } from "../../../types/reservation.ts";
 
 import styles from "./Column.module.css";
@@ -20,7 +20,8 @@ const Column: React.FC<ColumnProps> = ({ status, reservations }) => {
 
   const { draggedReservation, updateReservationStatus } = useReservationBoardContext();
 
-  const isValidTransition = (originalStatus: ReservationStatus) => allowedTransitions[originalStatus].includes(status);
+  const isValidTransition = (originalStatus: ReservationStatus) =>
+    ALLOWED_STATUS_TRANSITIONS[originalStatus].includes(status);
 
   const handleDragStart = useCallback(
     (reservation: Reservation) => {
@@ -68,12 +69,12 @@ const Column: React.FC<ColumnProps> = ({ status, reservations }) => {
       ref={columnRef}
       key={status}
       className={`${styles.statusColumn}`}
-      style={{ backgroundColor: isActive ? `hsla(${statusColors[status]}, 0.2)` : "hsl(var(--white))" }}
+      style={{ backgroundColor: isActive ? `hsla(${STATUS_COLORS[status]}, 0.2)` : "hsl(var(--white))" }}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <div className={styles.statusHeader} style={{ backgroundColor: `hsl(${statusColors[status]}` }}>
+      <div className={styles.statusHeader} style={{ backgroundColor: `hsl(${STATUS_COLORS[status]}` }}>
         <h2>{status}</h2>
         <span className={styles.reservationCount}>{reservations.length}</span>
       </div>
@@ -84,7 +85,7 @@ const Column: React.FC<ColumnProps> = ({ status, reservations }) => {
             handleDragStart={handleDragStart}
             key={reservation.id}
             reservation={reservation}
-            statusColor={statusColors[reservation.status]}
+            statusColor={STATUS_COLORS[reservation.status]}
           />
         ))}
 

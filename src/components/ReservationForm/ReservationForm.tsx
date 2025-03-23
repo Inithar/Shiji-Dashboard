@@ -55,7 +55,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
   } = useForm<ReservationFormData>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
-      status: AVAILABLE_STATUS_TYPES.RESERVED.value,
+      status: AVAILABLE_STATUS_TYPES.RESERVED.VALUE,
       ...initialValues
     }
   });
@@ -90,35 +90,28 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
     navigate("/");
   }
 
+  function setInputProps(field: keyof ReservationFormData, label: string, options?: { type?: string }) {
+    return {
+      label,
+      type: options?.type,
+      error: errors[field]?.message,
+      disabled: disabledFields.includes(field),
+      ...register(field)
+    };
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <h2 className={styles.subTitle}>Dane gościa</h2>
 
         <div className={styles.guestInfoRow}>
-          <Input
-            label="Imię"
-            error={errors.name?.message}
-            disabled={disabledFields.includes("name")}
-            {...register("name")}
-          />
-
-          <Input
-            label="Nazwisko"
-            error={errors.surname?.message}
-            disabled={disabledFields.includes("surname")}
-            {...register("surname")}
-          />
+          <Input {...setInputProps("name", "Imię *")} />
+          <Input {...setInputProps("surname", "Nazwisko *")} />
         </div>
 
         <div className={styles.guestInfoRow}>
-          <Input
-            label="Email"
-            type="email"
-            error={errors.email?.message}
-            disabled={disabledFields.includes("email")}
-            {...register("email")}
-          />
+          <Input {...setInputProps("email", "Email", { type: "email" })} />
         </div>
       </div>
 
@@ -131,7 +124,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
             control={control}
             render={({ field }) => (
               <RangeDatePicker
-                label="Data przyjazdu - Data wyjazdu"
+                label="Data przyjazdu - Data wyjazdu *"
                 disableTrigger={disabledFields.includes("arrivalDepartureDate")}
                 disabled={{ before: new Date() }}
                 error={getRangeDatePickerError(errors.arrivalDepartureDate)}
@@ -147,19 +140,19 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
             control={control}
             render={({ field }) => (
               <Select
-                label="Status"
+                label="Status *"
                 error={errors.status?.message}
                 value={field.value}
                 onValueChange={field.onChange}
                 disabled={disabledFields.includes("status")}
               >
-                {AVAILABLE_STATUS_TYPES_ARRAY.map(({ label, value }, index) => (
+                {AVAILABLE_STATUS_TYPES_ARRAY.map(({ LABEL, VALUE }, index) => (
                   <SelectItem
                     key={index}
-                    value={value}
-                    disabled={value === AVAILABLE_STATUS_TYPES.DUE_IN.value && !isArrivalToday}
+                    value={VALUE}
+                    disabled={VALUE === AVAILABLE_STATUS_TYPES.DUE_IN.VALUE && !isArrivalToday}
                   >
-                    {label}
+                    {LABEL}
                   </SelectItem>
                 ))}
               </Select>
@@ -168,19 +161,8 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
         </div>
 
         <div className={styles.reservationDetailsRow}>
-          <Input
-            label="Numer pokoju"
-            error={errors.roomNumber?.message}
-            disabled={disabledFields.includes("roomNumber")}
-            {...register("roomNumber")}
-          />
-
-          <Input
-            label="Notatki"
-            error={errors.notes?.message}
-            disabled={disabledFields.includes("notes")}
-            {...register("notes")}
-          />
+          <Input {...setInputProps("roomNumber", "Numer pokoju")} />
+          <Input {...setInputProps("notes", "Notatki")} />
         </div>
       </div>
 

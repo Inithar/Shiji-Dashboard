@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import DeleteReservationDialog from "../DeleteReservationDialog/DeleteReservationDialog.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "../../Popover/Popover.tsx";
 
-import { STATUS_ALLOWED_TO_EDIT } from "../../../constants/constants.ts";
+import { STATUS_ALLOWED_TO_EDIT_RESERVATION } from "../../../constants/constants.ts";
 import { formatDate } from "../../../utils/dateFormatters";
 import { Reservation } from "../../../types/reservation";
 
@@ -34,7 +34,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, statusCo
             </PopoverTrigger>
 
             <PopoverContent className={styles.actionsContent}>
-              {STATUS_ALLOWED_TO_EDIT.includes(reservation.status) ? (
+              {STATUS_ALLOWED_TO_EDIT_RESERVATION.includes(reservation.status) ? (
                 <Link to={`/edit/${reservation.id}`} className={styles.editReservationLink}>
                   Edytuj
                 </Link>

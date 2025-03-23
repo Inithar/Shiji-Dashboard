@@ -7,7 +7,7 @@ import ReservationFormLayout from "../../layouts/ReservationFormLayout/Reservati
 import ReservationForm from "../../components/ReservationForm/ReservationForm.tsx";
 
 import useQuery from "../../hooks/useQuery.ts";
-import { BASE_URL, STATUS_ALLOWED_TO_EDIT } from "../../constants/constants.ts";
+import { BASE_URL, STATUS_ALLOWED_TO_EDIT_RESERVATION } from "../../constants/constants.ts";
 import { Reservation } from "../../types/reservation.ts";
 import { transformReservationToFormData } from "./EditReservation.utils.ts";
 
@@ -22,7 +22,7 @@ const EditReservation = () => {
   } = useQuery<Reservation | null>(`${BASE_URL}/reservations/${id}`);
 
   useEffect(() => {
-    if (reservation && !STATUS_ALLOWED_TO_EDIT.includes(reservation.status)) {
+    if (reservation && !STATUS_ALLOWED_TO_EDIT_RESERVATION.includes(reservation.status)) {
       toast.error(`Nie można edytować rezerwacji w statusie: ${reservation.status}`);
       navigate("/");
     }
@@ -32,7 +32,7 @@ const EditReservation = () => {
 
   if (error || !reservation) return <div>Error...</div>;
 
-  if (!STATUS_ALLOWED_TO_EDIT.includes(reservation.status)) {
+  if (!STATUS_ALLOWED_TO_EDIT_RESERVATION.includes(reservation.status)) {
     return null;
   }
 
